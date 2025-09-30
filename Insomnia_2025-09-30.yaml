@@ -1,0 +1,560 @@
+type: collection.insomnia.rest/5.0
+name: Video Streaming API
+meta:
+  id: wrk_49adb429d17e429eb4f08fcd4ca3132c
+  created: 1759122827990
+  modified: 1759122827990
+  description: ""
+collection:
+  - name: Local Videos
+    meta:
+      id: fld_02db41cc9b5a42f9a1d54c28323690f4
+      created: 1704067200000
+      modified: 1704067200000
+      sortKey: -1704067199000
+      description: Local video streaming endpoints
+    children:
+      - url: "{{ _.base_url }}/api/video/local/{{ _.video_filename }}"
+        name: Stream Local Video
+        meta:
+          id: req_29f82c86214742aab0658fd7c8d9a139
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Stream a local video file with Range Request support
+          sortKey: -1704067199000
+        method: GET
+        headers:
+          - id: pair_range_header
+            name: Range
+            value: bytes=0-1023
+            description: "Optional: Request specific byte range"
+            disabled: true
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/video/local/{{ _.video_filename }}/metadata"
+        name: Get Local Video Metadata
+        meta:
+          id: req_5c11847063bc4003a96dd7799a71c1ae
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Get metadata for a local video file
+          sortKey: -1704067198000
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/video/list"
+        name: List Local Videos
+        meta:
+          id: req_889edfc2fb514f339f9ff45d4a0a3d33
+          created: 1704067200000
+          modified: 1759122957546
+          isPrivate: false
+          description: Get list of all local videos
+          sortKey: -1704067200000
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/video/local/{{ _.video_filename }}"
+        name: Get Local Video Headers
+        meta:
+          id: req_9c610fbf8a304e12aefa8eb2bb04d0e5
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Get video headers without body (HEAD request)
+          sortKey: -1704067197000
+        method: HEAD
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: HLS Streams
+    meta:
+      id: fld_03dc34b1ba634064b305cde983104639
+      created: 1704067200000
+      modified: 1704067200000
+      sortKey: -1704067197000
+      description: HLS streaming endpoints
+    children:
+      - url: "{{ _.base_url }}/api/hls/convert"
+        name: Convert Video to HLS
+        meta:
+          id: req_14b1bc4fd9b24f5e9de0c39dd085095f
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Convert a video file to HLS format
+          sortKey: -1704067194000
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "inputPath": "/path/to/video.mp4",
+              "outputName": "my-stream",
+              "options": {
+                "qualities": ["720p", "480p", "360p"],
+                "segmentDuration": 10
+              }
+            }
+        headers:
+          - id: pair_content_type
+            name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/hls/{{ _.hls_stream_name }}"
+        name: Delete HLS Stream
+        meta:
+          id: req_5465e73aae7148ab837b29db854c34da
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Delete an HLS stream and all its files
+          sortKey: -1704067195000
+        method: DELETE
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/hls/{{ _.hls_stream_name }}/{{ _.hls_quality
+          }}/playlist.m3u8"
+        name: Get HLS Quality Playlist
+        meta:
+          id: req_7cbd717840f14aa696d531c80b527f3b
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Get playlist for specific quality (360p, 480p, 720p)
+          sortKey: -1704067198000
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/hls/streams"
+        name: List HLS Streams
+        meta:
+          id: req_867524bc60074a88a3f2dc16d3933e73
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Get list of all available HLS streams
+          sortKey: -1704067200000
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/hls/{{ _.hls_stream_name }}/{{ _.hls_quality }}/{{
+          _.hls_segment_name }}"
+        name: Get HLS Segment
+        meta:
+          id: req_86b28d76df86462ca9dda6443ad261e3
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Get a specific HLS segment file
+          sortKey: -1704067197000
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/hls/{{ _.hls_stream_name }}/info"
+        name: Get HLS Stream Info
+        meta:
+          id: req_8e0eebb69ece46c796482b6504e99be0
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Get detailed information about a specific HLS stream
+          sortKey: -1704067196000
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/hls/{{ _.hls_stream_name }}/master.m3u8"
+        name: Get HLS Master Playlist
+        meta:
+          id: req_a24795da8d75478580755c8580c41195
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Get the master playlist for an HLS stream
+          sortKey: -1704067199000
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Upload
+    meta:
+      id: fld_06860d188cd640bfa6e6c02481c6a65d
+      created: 1704067200000
+      modified: 1704067200000
+      sortKey: -1704067196000
+      description: Video upload endpoints
+    children:
+      - url: "{{ _.base_url }}/api/upload/r2/{{ _.r2_video_key }}/convert-hls"
+        name: Convert R2 Video to HLS
+        meta:
+          id: req_1d8e272450b947d7ba979f848801b32d
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Convert an R2 video to HLS format
+          sortKey: -1704067197000
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "qualities": ["720p", "480p", "360p"],
+              "segmentDuration": 10
+            }
+        headers:
+          - id: pair_content_type
+            name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/upload/local"
+        name: Upload Video to Local Storage
+        meta:
+          id: req_7ae2971afd3b4bfb8c540e508b31f33a
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Upload a video file to local storage
+          sortKey: -1704067199000
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - id: pair_video_file
+              name: video
+              value: ""
+              description: Video file to upload
+              type: file
+              fileName: ""
+            - id: pair_convert_hls
+              name: convertToHLS
+              value: "false"
+              description: Convert to HLS after upload
+              type: text
+            - id: pair_move_videos
+              name: moveToVideos
+              value: "true"
+              description: Move to videos directory
+              type: text
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/upload/r2"
+        name: Upload Video to R2
+        meta:
+          id: req_8cec05e47d054485ad4803f9048df91a
+          created: 1704067200000
+          modified: 1759123570137
+          isPrivate: false
+          description: Upload a video file to Cloudflare R2
+          sortKey: -1704067198000
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - id: pair_video_file
+              name: video
+              value: ""
+              description: Video file to upload
+              type: file
+              fileName: /Users/kaueavila/Downloads/ALPS & DOLOMITES (Drone + Timelapse)
+                Heavenly Nature Relaxation™ 5 Minute Short Film in 4K UHD.mp4
+            - id: pair_r2_key
+              name: key
+              value: videos/my-video.mp4
+              description: R2 object key (optional)
+              type: text
+            - id: pair_convert_hls
+              name: convertToHLS
+              value: "true"
+              description: Convert to HLS after upload
+              type: text
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/upload/r2/{{ _.r2_video_key }}/hls-status"
+        name: Check R2 HLS Conversion Status
+        meta:
+          id: req_a956fd2d672e4de1a4518405bbaa5ff4
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Check the status of R2 to HLS conversion
+          sortKey: -1704067196000
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/upload/info"
+        name: Get Upload Info
+        meta:
+          id: req_f16c38d5ba6342d2a6baf16311e290c2
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Get upload configuration and limits
+          sortKey: -1704067200000
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: General
+    meta:
+      id: fld_a752867e093b4c699a18cd6986c0ce19
+      created: 1704067200000
+      modified: 1704067200000
+      sortKey: -1704067200000
+      description: General API endpoints
+    children:
+      - url: "{{ _.base_url }}/health"
+        name: Health Check
+        meta:
+          id: req_2c0a5223390a4159afee460b1f8382f5
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Check if the server is running
+          sortKey: -1704067200000
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: R2 Videos
+    meta:
+      id: fld_b325baf553f24ee09abe25d39d474db8
+      created: 1704067200000
+      modified: 1704067200000
+      sortKey: -1704067198000
+      description: Cloudflare R2 video streaming endpoints
+    children:
+      - url: "{{ _.base_url }}/api/video/r2/{{ _.r2_video_key }}/stream-info"
+        name: Get R2 Video Stream Info
+        meta:
+          id: req_1e08ce7320f249b58085f4a55cd50dc9
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Get streaming information and options for R2 video
+          sortKey: -1704067196000
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/video/r2/{{ _.r2_video_key }}"
+        name: Stream R2 Video
+        meta:
+          id: req_275b10957c7e48d4b19ff3eaff6e2a8d
+          created: 1704067200000
+          modified: 1759123584485
+          isPrivate: false
+          description: Stream a video from R2 with Range Request support
+          sortKey: -1704067199000
+        method: GET
+        headers:
+          - id: pair_range_header
+            name: Range
+            value: bytes=0-1023
+            description: "Optional: Request specific byte range"
+            disabled: true
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/video/r2/{{ _.r2_video_key }}/presigned"
+        name: Get R2 Video Presigned URL
+        meta:
+          id: req_6b11a894474f49f1806ab6affa20169b
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Get a presigned URL for direct R2 access
+          sortKey: -1704067197000
+        method: GET
+        parameters:
+          - id: pair_expires_in
+            name: expiresIn
+            value: "3600"
+            description: "Optional: URL expiration time in seconds"
+            disabled: true
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/video/r2/{{ _.r2_video_key }}/metadata"
+        name: Get R2 Video Metadata
+        meta:
+          id: req_74ac98d96cdf497a8016cfd7fa6aaea9
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Get metadata for an R2 video
+          sortKey: -1704067198000
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/api/video/r2/list"
+        name: List R2 Videos
+        meta:
+          id: req_c14c66ded54a4ee6ad80b6f3bf29cd99
+          created: 1704067200000
+          modified: 1704067200000
+          isPrivate: false
+          description: Get list of all R2 videos
+          sortKey: -1704067200000
+        method: GET
+        parameters:
+          - id: pair_prefix
+            name: prefix
+            value: videos/
+            description: "Optional: Filter by prefix"
+            disabled: true
+          - id: pair_max_keys
+            name: maxKeys
+            value: "100"
+            description: "Optional: Maximum number of videos to return"
+            disabled: true
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_17f8725970e8667bbbe9c97aab9183a73b19e0ab
+    created: 1759122828000
+    modified: 1759122828000
+environments:
+  name: Base Environment
+  meta:
+    id: env_db92bb7100c04e21948a8c15e74fe0e5
+    created: 1704067200000
+    modified: 1759123026147
+    isPrivate: false
+  data:
+    base_url: http://localhost:3000
+    video_filename: video-1759122544819-237922795.mp4
+    r2_video_key: videos/my-video.mp4
+    hls_stream_name: video-1759122544819-237922795
+    hls_quality: 720p
+    hls_segment_name: segment000.ts
